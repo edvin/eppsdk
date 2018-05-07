@@ -1,0 +1,328 @@
+Name Store / SRS Bundle SDK Changelog
+===================
+
+Changes in version 3.13.0.2 (27.04.2012)
+-----------------------------------
+* Added missing getXmlSchemas() : Set method to preload the dependent XML schemas by the com.verisign.epp.util.EPPSchemaCachingParser class to com.verisign.epp.codec.secdnsext.v10.EPPSecDNSExtFactory and com.verisign.epp.codec.secdnsext.v10.EPPSecDNSExtFactory. (James F. Gould)   
+
+Changes in version 3.13.0.1 (07.11.2011)
+-----------------------------------
+* Removed the pre-condition check of passing a non-null EPPSSLContext parameter to the constructor of com.verisign.epp.transport.client.EPPPlainClientSocket. (James F. Gould)
+* Added support for connecting through an Apache Proxy (mod_proxy) by creating the com.verisign.epp.transport.client.EPPPlainProxyClientSocket class for TCP and com.verisign.epp.transport.client.EPPSSLProxyClientSocket for SSL/TLS.  Additional customization classes and properties were created for defining the list of proxy servers (com.verisign.epp.transport.client.EPPProxyServersLocator interface) and the concrete com.verisign.epp.transport.client.EPPConfigProxyServersLocator class for using the EPP.ProxyServers property for the list.  The EPP.ProxyServersRandomize property was defined to enable and disable the selection of the proxy servers to use. (James F. Gould)
+* Added support for the new Balance Object Mapping that defines an info command and response to retrieve the account balance and other balance information. (James F. Gould) 
+
+Changes in version 3.13.0.0 (08.03.2011)
+-----------------------------------
+* Bumped up the default maximum packet size (EPP.MaxPacketSize) in com.verisign.epp.util.EPPXMLStream from 10000 to 355000 for WhoWas. (James F. Gould)
+* Removed the schema-based 32-character length restriction for the input key for NameSuggestion. (Jeff Faust)
+* Added constants for French language for NameSuggestion. (Jeff Faust)
+
+Changes in version 3.12.0.4 (05.05.2011)
+-----------------------------------
+* Added setting of the xsi:schemaLocation attribute in the encode method of the EPPCoaExtCreate, EPPCoaExtUpdate, and EPPCoaExtInfoData classes to be consistent with the other extensions. (James F. Gould)
+* Updated the format of all of the custom EPP specifications to use the latest document template.  (James F. Gould)
+* Removed the inclusion of the RCCTLD extension source and EPP specifications from the distributions. (James F. Gould) 
+
+Changes in version 3.12.0.3 (29.04.2011)
+-----------------------------------
+* Added com.verisign.epp.pool.EPPSessionPool.close() and com.verisign.epp.pool.EPPSystemSessionPool.close() methods to cleanly close the sessions by clearing and closing the underlying GenericObjectPool instance(s).  The new EPPSessionPool.close() method was added to the com.verisign.epp.namestore.interfaces.NSDomainTst, com.verisign.epp.namestore.interfaces.NSHostTst, and com.verisign.epp.namestore.interfaces.NSPollTst test classes. (James F. Gould)
+
+Changes in version 3.12.0.2 (12.04.2011)
+-----------------------------------
+* Added ActionEnum.RANK_BY_INPUT_ASSOCIATION for NameSuggestion. (Vincent Raemy)
+
+
+Changes in version 3.12.0.1 (28.03.2011)
+-----------------------------------
+* Added EPPCommand.getExtension(Class, boolean), EPPResponse.getExtension(Class. boolean), and added exception EPPDuplicateExtensionException.  Updated EPPCodecTst to Unit Test new methods. (James F. Gould)
+
+
+Changes in version 3.12.0.0 (10.03.2011)
+-----------------------------------
+* Added Client Object Attribute (COA) extension to NameStore bundle. (Jef Faust)
+* Removed the HTTP / HTTPS transport support from the NameStore bundle. (James F. Gould)
+
+Changes in version 3.11.0.3 (03.05.2010) 
+-----------------------------------
+* Renamed "getType() : String" method in com.verisign.epp.codec.whowas.EPPWhoWasInfoCmd and com.verisign.epp.codec.whowas.EPPWhoWasInfoResp EPPWhoWasInfoCmd.getWhowasType() to "getWhowasType() : String" since "getType() : String" cannot be overridden in the com.verisign.epp.codec.gen.EPPCommand and com.verisign.epp.codec.gen.EPPResponse classes. (Deepak Deshpande). 
+
+Changes in version 3.11.0.2 (12.04.2010) 
+-----------------------------------
+* Added optional renewalPrice element to Premium Domain extension of Domain Check command response. (Mahendra Jain).
+
+
+Changes in version 3.11.0.1 (01.04.2010) 
+-----------------------------------
+* Small bug fixes. (James F. Gould)  
+
+Changes in version 3.11.0.0 (31.03.2010) 
+-----------------------------------
+* Added EPPDomainAddRemove.isEmpty() : boolean method to easily determine if all of the attributes are null. (James F. Gould)
+* Added support for secDNS-1.1 as defined in draft-gould-rfc4310-bis and moved the secDNS-1.0 support to codec sub-package.  Also updated NSDomain to support secDNS-1.1. This included adding dependency to dnsjava 2.0.8 for creating DS data from Key data. (James F. Gould)
+* Added Premium Domain Check command to the premiumdomain extension and to the NameStore bundle. (Mahendra Jain).
+* Added WhoWas Product (Deepak Deshpande)
+
+
+Changes in version 3.10.0.0 (23.12.2009) 
+-----------------------------------
+* Changed EPPRgpExtReport.encode(Document) to use preData and postData instead of preWhois and postWhois to be compliant with RFC 3915. (James F. Gould)
+* Added the Premium Domain (premiumdomain) extension to the NameStore bundle. (Mahendra Jain) 
+* Updated NSDomainHandler, NSDomainTst, RgpDomainHandler, EPPRgpDomainTst to return both grace period and pending period statuses. (James F. Gould)
+* Updated the client interface tests to drive off of the EPP.Test.clientId and EPP.Test.password epp.config properties with default hardcoded values based on DR #17146.  (James F. Gould)
+* Upgraded from Ant 1.6.0 to 1.7.1 to resolve an issue with an exception raised after running the test-client-server when Ant is stopping the Stub Server.  This is based on DR #21252.  (James F. Gould)
+* Added comment in the epp.config related to commenting out the EPP.SessionPool.<pool>.SSLProtocol property to test against the Stub Server over TCP.  This is based on DR #21253. (James F. Gould)
+* Removed the jvmarg setting of javax.net.ssl.trustStore in all of the common-target.xml files and added the EPP.TrustStoreFileName and EPP.TrustStorePassPhrase epp.config properties to be able to override the setting more easily.  This is based on DR #21274.  (James F. Gould)
+* Updated the Name Suggestion section of the Programmer's Guide to include instructions for setting the language and better describing the setting of the command.  This is based on DR #21276. (James F. Gould)
+* Standardized the use of the EPP.ConfigFile system property to override the default epp.config file across the Ant targets.  This is based on DR #21333. (James F. Gould)
+* Replaced all of the XML entity includes with standard Ant import tasks.  This is based on DR #23114. (James F. Gould)
+* Set the Name Suggestion epp.config EPP.Validating and EPP.FullSchemaChecking properties to true. This is based on DR #23945. (James F. Gould).
+* Revamped the quick start instructions in the Programmer's Guide to include instructions for using the session pool and to include references to the client interface tests as running examples.  (James F. Gould). 
+
+
+Changes in version 3.9.1.0 (13.07.2009) 
+-----------------------------------
+* Added new ant target "jar-src" to creating source jar file with version number. (Vijay Garothaya)
+* Modify "jar" ant target to include version number in jar file name. (Vijay Garothaya)
+* Added dependency and configuration of the Host mapping to secdns to remove XML schema errors when testing from the secdns build by the domain XML schema reference host XML schema elements. (James F. Gould)
+* Replaced the XML entity includes of common-targets.xml with Ant import tasks to remove Ant warning messages. (James F. Gould)
+* Fixed the decoding of the EPPSecDNSExtUpdate urgent flag to accept "0" and "1" values, where previously it only supported "false" and "true". (James F. Gould).  
+* Changed the default availability flag returned on a Domain Check by NSDomainHandler to be true instead of false. (James F. Gould)
+
+Changes in version 3.9.0.0 (06.04.2009) 
+-----------------------------------
+* Added EPPLoginCmd.mergeServicesAndExtensionServices(EPPGreeting) method and added a call from EPPSession.login to merge the default services and extension services included in the EPP Login with the services and extension services return in the EPP Greeting.  This will ensure protocol compliance of the EPP Login even when there are many more services configured on the client side. (James F. Gould)
+* Added EPPRgpExtInfData.setStatuses(Vector) and EPPRgpExtInfData.getStatuses() : Vector to match the latest version of RFC 3915, where multiple statuses can be returned. (James F. Gould) 
+* Added EPPRgpExtReport getPreData, getPostData, setPreData, and setPostData along deprecating getPreWhois, getPostWhois, setPreWhois, and setPostWhois to be in line with the latest version of RFC 3915.  Also updated rgp-1.0.xsd and EPPRgpExtReport.decode to support passing either (pre|post)Whois or (pre|post)Data to simulate a Stub Server that accepts either one during a transition period to the latest version of RFC 3915. The EPPRgpExtTst, EPPRgpDomainTst, NSDomainTst, and RgpDomainHandler were updated not to use deprecated methods. (James F. Gould)
+
+Changes in version 3.8.0.3 (10.02.2009) 
+-----------------------------------
+* Updated EPPSuggestionInfoCmd and EPPSuggestionInfoResp to only encode the language element if the language value is not null and not the default value of "ENG" for backward compatibility.  (James F. Gould)
+
+Changes in version 3.8.0.2 (08.12.2008) 
+-----------------------------------
+* Added EPPUtil.removeWhitespace(String), EPPUtil.encodeIntegerList(Document, List, String), and EPPUtil.decodeIntegerList(Element, String, String) that use used by new secdns (DNSSEC) extension. (James F. Gould)
+* Added new secdns (DNSSEC) extension. (James F. Gould) 
+* Added secdns (DNSSEC) extension to the NameStore bundle which included adding setSecDNSCreate(List), setSecDNSUpdateForAdd(List, boolean), setSecDNSUpdateForChg(List, boolean), setSecDNSUpdateForRmv(List, boolean) to NSDomain, adding com.verisign.epp.codec.secdnsext.EPPSecDNSExtFactory to the default EPP.CmdRspExtensions property, adding test code in both NSDomainTst and NSDomainHandler. (Leela Koneru)  
+
+Changes in version 3.8.0.1 (27.10.2008) 
+-----------------------------------
+* Fixed EPPPurpose(boolean, boolean, boolean, boolean) constructor to set the property based on the parameters instead of setting the properties to false.  Also updated EPPCodecTst.testGreeting to add assertions for the fix. (James F. Gould)
+* Added the initMaxActive EPPSessionPool property to set if at initialization whether maxActive sessions should be created.  The default behavior is "false" which will create sessions on demand.  (James F. Gould)
+* Added the for borrowRetries EPPSessionPool property to set the number of retries that should be executed if on call to borrowObject() or borrowObject(String) there is a failure getting/creating a session.  The default value is 0 and setting the property to a positive value will result in one attempt plus the number of borrowRetries attempts. (James F. Gould)
+* Added Name Suggestion language element. (James F. Gould)
+
+Changes in version 3.8.0.0 (16.01.2008) 
+-----------------------------------
+* In com.verisign.epp.codec.domain.EPPDomainTst, changed to load the EPPHostMapFactory prior to the EPPDomainMapFactory based on the dependency of the domain-1.0.xsd to the host-1.0.xsd. (James F. Gould) 
+* Fixed issue that the XML Parser Pool needs to be initialized after the CODEC to properly pre-load all of the dependency XML schemas. (James F. Gould)
+* Changed (!theResponse instanceof CLASS) calls in EPPDomain.java, EPPHost.java, and EPPContact.java to use the new EPPSession.processDocument(EPPCommand, Class) : EPPResponse calls to allow for the new EPPSession.MODE_ASYNC mode where null can be returned from EPPSession.processDocument(EPPCommand) and EPPSession.processDocument(EPPCommand, Class). (James F. Gould)
+* Added testAsyncCommands() to NSDomainTst.java to test use of the MODE_ASYNC with EPPSession. (James F. Gould)
+* Added doAsyncPoll() to EPPSessionTst.java to test poll messaging with the EPPSession mode set to MODE_ASYNC. (James F. Gould)
+* Added processDocument(aCommand : EPPCommand, aExpectedResponse Class) method, and isModeSupported(int) : boolean method to EPPHttpSession.java to support the new EPPSession API but to specify to the client that EPPHttpSession does NOT support MODE_ASYNC mode. (James F. Gould)
+* Added MODE_SYNC constant, MODE_ASYNC constant, setMode(int) : int method, getMode() : int method, isModeSupported(int) : boolean method, processDocument(aCommand : EPPCommand, aExpectedResponse Class) method, readResponse() : EPPResponse to support asynchronous mode for implementing pipelining. (James F. Gould)  
+* Added missing com.verisign.epp.serverstub.ContactPollHandler from the EPP.PollHandlers property of epp-http.config. (James F. Gould)
+
+Changes in version 3.7.0.3 (26.09.2007) 
+-----------------------------------
+* Added "getXmlSchemas() : Set" method to EPPFactory, EPPMapFactory, EPPExtFactory, and the derived classes of EPPMapFactory and EPPExtFactory to specify the XML schemas that need to be pre-loaded.  The schemaLocation attribute is optional with EPP RFC 4930, so dynamically loading the XML schemas will not consistently work.  All XML schemas will be pre-loaded by EPPSchemaCachingParser based on the configured EPP.MapFactories and EPP.CmdRspExtensions.  The order of the factories is signifant, where EPPHostMapFactory should precede EPPDomainMapFactory since the domain-1.0.xsd depends on the host-1.0.xsd. (James F. Gould)  
+* Updated the gen, domain, host, contact, and tcp specifications and XML schemas to match the May 2007 RFC's. (James F. Gould)  
+* Updated the copyright dates in license.txt to include 2004-2007.  
+* Updated the EPPContactAddChange validation of optional fields for Contact update(Rupert Fernando)
+* Updated the EPPContactAddress to handle the street address correctly (Rupert Fernando)
+
+Changes in version 3.7.0.2 (20.09.2007) 
+-----------------------------------
+* Updated com.verisign.epp.domain.interfaces.EPPDomainTst, com.verisign.epp.domain.interfaces.EPPHostTst, com.verisign.epp.domain.interfaces.EPPContactTst to get the EPPResponse from the EPPCommandException within handleException(Exception) instead of relying on the EPPResponse.getResponse() method. (James F. Gould)
+* Updated com.verisign.epp.domain.interfaces.EPPDomain, com.verisign.epp.domain.interfaces.EPPHost, com.verisign.epp.domain.interfaces.EPPContact to not use a response attribute, but to use a local variable.  Updated the getResponse() : EPPResponse method to call the session.getResponse() method to get the last response. (James F. Gould)
+* Updated EPPSession.processDocument to using the myResponse attribute instead of a local variable and to set it to null at the start of the method to properly support the public getResponse() : EPP Response method, which returns that last response of the last command if one was returned. (James F. Gould)
+* Updated the Programmers guide for DotJobs section. Modified the EPP.CmdRspExtensions configuration parameter to EPPJobsContactExtFactory. (Rupert Fernando)
+
+
+Changes in version 3.7.0.1 (14.09.2007) 
+-----------------------------------
+* Removed RCC entries from the NameStore Bundle default configuration and test code.  Removed the RCC Mapping Factories, Extension Factories, and Handlers from the default NameStore Bundle epp.config and epp-http.config files.  Removed inclusion of RCC CODEC and Interfaces tests from the NameStore Bundle common-targets.xml.  Removed RCC poll messages from NSPollTst and NSDomainHandler. (James F. Gould)  
+* Removed cls from the bundle (James F. Gould)
+* Added the jobsContact extension to the bundle (James F. Gould)
+* Added contact to bundle (James F. Gould)
+* Made the default log level of EPPSession and EPPLoginCmd to be error level in logconfig.xml.
+* Added the EPPSession.getClientCon() method and made the EPPSSLClientSocket.getSocket() method public to support SSL Re-negotiation. 
+* Added the EPP.MaxPacketSize configuration property to override the EPPXMLStream maximum packet size that was previous defined by the constant MAX_PACKET_SIZE.  The EPPXMLStream.MAX_PACKET_SIZE has been renamed to EPPXMLStream.DEFAULT_MAX_PACKET_SIZE and used if the EPP.MaxPacketSize property is not set. (James F. Gould)
+* Added support for specifying a period of 0 to match the EPP specification as identified in SR 1288144. (James F. Gould)
+* Fixed EPPDomainInfoCmd.HOSTS_NONE constant to have a value of "none" instead of "del". (James F. Gould)
+
+Changes in version 3.6.2.0 (13.11.2006) 
+-----------------------------------
+* Updated EPPSession.endSession and EppHttpSession.endSession to ensure that the connection is closed even if the logout fails. (James F. Gould)
+* Added diagnostic logs to EPPSession to better track information associated with the state of the session. (James F. Gould)
+* Added EPPSessionPoolTst.testCloseSession() test and added a supporting change to GenHandler to test the server closing the connection before the client. (James F. Gould)
+* Added diagnostic logs to EPPServerThread to capture when a thread is started, when it is closing the connection, and when it is ending. (James F. Gould)
+* Changed "services mismatch" log from warn to debug level in EPPLoginCmd since this is a common use case. (James F. Gould)
+
+Changes in version 3.6.1.0 (25.09.2006) 
+-----------------------------------
+* Added support for RCCTLD Transfers. (John Fraser) 
+* Removed references to the EU Sunrise RCCTLD Extension from the configuration files and from the build. (James F. Gould)
+* Allowed the setting of the authInfo when invoking any transfer operation with com.verisign.epp.interfaces.EPPDomain.sendTransfer(), which previously was only supported with the transfer request.  This is based on SR 1156493. (James F. Gould)
+* Made EPPSession.endConnection public and added a call to EPPSession.endConnection within EPPSessionPoolableFactory.makeObject when an EPPCommandException is raised from EPPSession.initSession() which could cause a connection leak. (James F. Gould)
+* Updated EPPSessionPool to check that the aSession parameter is not null at the start of the invalidateObject and returnObject methods to ensure that numActive pool count does not go negative. which is an issue with the Jakarta Commons Object Pool. (James F. Gould) 
+* Added gen epp-client.config and epp-server.config for local session pool SSL configuration testing. (James F. Gould)
+* Updated EPPSSLImpl.initialize() to reference EPPEnv.getSSLEnabledCipherSuites() and EPPEnv.getSSLEnabledProtocols. (James F. Gould)
+* Added EPPEnv.getSSLEnabledCipherSuites() : String[] based on the optional EPP.SSLEnabledCipherSuites property. (James F. Gould)
+* Added debug level logging of the supported protocols and cipher suites when a connection is made in com.verisign.epp.transport.client.EPPSSLClientSocket. (James F. Gould)  
+* Updated gen epp.config and common-targets.xml to the com.verisign.epp.pool.EPPSystemSessionPoolTst test for local testing of the system pools under the gen build. (James F. Gould)
+* Added Name Store / SRS Bundle epp-client.config, epp-server.config, and new identity and trust stores (client1-identity.jks, client2-identity.jks, client-truststore.jks, and server-truststore.jks) to test pool specific SSL settings. (James F. Gould)
+* Updated Name Store / SRS Bundle epp-http.config to include the new optional EPP.SSLEnabledCipherSuites property and removed unused EPP.SSLKeyManager property. (James F. Gould)
+* Updated Name Store / SRS Bundle epp.config to include session pool specific SSL settings, to include the new optional EPP.SSLEnabledCipherSuites property and removed unused EPP.SSLKeyManager property. (James F. Gould)
+
+Changes in version 3.6.0.0 (13.07.2006) 
+-----------------------------------
+* Added the use of EPPSSLContext through multiple layers of EPPSession and connection classes to allow for seperate SSL configuration per session pool.  Classes modified include EPPClientCon, EPPPlainClientSocket, EPPPooledGenericSession, EPPSSLClientSocket, EPPSSLImpl, EPPSession, EPPSessionPoolableFactory, and EPPSystemSessionPool.  (James F. Gould)
+* Added com.verisign.epp.transport.client.EPPSSLConfig, added com.verisign.epp.transport.client.EPPSSLContext, and updated com.verisign.epp.transport.client.EPPSSLImpl to support initialization of multiple SSL contexts/configurations. (James F. Gould)
+* Fixed the Javadoc warnings in the gen package. (James F. Gould)
+
+Changes in version 3.5.2.0 (03.07.2006)
+-----------------------------------
+* Added support for mixed XML content in the msg element of the msgQ element of poll responses per SR #1020533 by updating EPPMsgQueue and adding a test case to EPPCodecTst. (James F. Gould)  
+* Added support for timeinstant strings without the millisecond element in EPPUtil.decodeTimeInstance(String) : Date since milliseconds is optional. (James F. Gould)
+* Added optional EPP.SSLEnabledProtocols property based on SR #1017545.  Added EPPEnv.getSSLEnabledProtocols() : String[], EPPSSLImpl.hasSSLEnabledProtocols() : boolean, and EPPSSLImpl.getSSLEnabledProtocols() : String[] methods.  Updated EPPSSLClientSocket and HTTPSSocketFactory to set the enabled protocols based on the EPPSSL.getSSLEnabledProtocols method. (James F. Gould) 
+
+Changes in version 3.5.1.0 (23.05.2006)
+-----------------------------------
+* Explicitely set the pool minEvictableIdleTimeMillis configuration property to 0 in EPPSessionPool.initSinglePool and EPPSystemSessionPool.init to ensure that Generic Object Pool idle timeout checking is disabled.  The EPPSessionPool handles EPP absoluate and idle timeouts. (James F. Gould)  
+* Fix for SR #907237 where the epp.config Session Pool idleTimeout properties higher than timeBetweenEvictionRunsMillis properties resulted in the EPP Hello not be sent since the Evictor Thread called the EPPSessionPoolableFactory.passivateObject(Object) method which touched the session.  The touch was moved up to EPPSessionPool.returnObject methods, removed from EPPSessionPoolableFactory, and a test was added to EPPSessionPoolTst for idle timeout.  (James F. Gould).
+* Javadoc updates to the Name Suggestion Product (Mahendra Jain)
+
+Changes in version 3.5.0.0 (10.04.2006)
+-----------------------------------
+* Added Name Suggestion Product (Mahendra Jain)
+* Added test utility classes InvalidateSessionException and TestUtil, and updated NSDomainTst, NSPollTst, NSHostTst, and EPPSessionPoolTst to use the new classes for providing a better sample of when to invalidate a session based on an exception. (James F. Gould)
+* Added the EPPResult.shouldCloseSession() : boolean method to for use in determine whether a server error should result in the closing/invalidation of the session. (James F. Gould)
+* Added support for either a boolean "1" or "true" and "0" or "false" in the EPPDomainCheckResult and the EPPHostCheckResult with use of new EPPUtil.decodeBooleanAttr and EPPUtil.encodeBooleanAttr methods. (James F. Gould)
+
+Changes in version 3.4.1.0 (13.03.2006) 
+-----------------------------------
+* Removed the validation of a null authString on a Transfer Request in com.verisign.epp.interfaces.EPPDomain and com.verisign.epp.codec.domain.EPPDomainTransferCmd to support transfer requests for COM, NET Domains created in RRP.  Also added a test case to com.verisign.epp.interfaces.EPPDomainTst for this.  (James F. Gould)
+* Added the ability to run the CLS tests against OT&E by setting the EPP.Test.clientId property, the EPP.Test.password property, the EPP.Test.EPP.Test.cls.domainName to a domain in CLS, and the EPP.Test.stubServer property to false. (James F. Gould)
+* Updated EPPNamestoreExtDomainTst, EPPNamestoreExtHostTst, and EPPRccContactTst to use the EPP.Test.clientId property and the EPP.Test.password property with the defaults of "ClientX" and "foo-BAR2", respectively as a first step in running the test against OT&E. (James F. Gould)
+
+Changes in version 3.4.0.1 (19.01.2006) 
+-----------------------------------
+* Added the Name Store and SRS (COM/NET) OT&E and Production host names to epp.config, and the Name Store OT&E and Production URL's to epp-http.config for easier configuration.  (James F. Gould)
+* Added the EPP.Test.clientId, EPP.Test.password, and EPP.Test.stubServer epp.config and epp-http.config properties along with EPPSessionTst to configure the tests for different environments.  More tests and potentially properties will be added to parameterize the tests to run against more than the Stub Server.  (James F. Gould)
+* Changed default settings for the absoluteTimeout and idleTimeout to be 82800000 ms (23 hours) and 480000 ms (8 minutes), respectively based on SR #743545. (James F. Gould)
+* Fixed a bug with SSL not getting initialized in EPPHttpSession(String) which is required for the session pool to work with https.  This was identified in SR #737277. (James F. Gould)
+
+Changes in version 3.4.0.0 (21.12.2005) 
+-----------------------------------
+* Added the RCCLiteralEU Extension. (James F. Gould)
+* Fixed an issue with initializing Apache HTTP Client from EPPHttpSession that resulted in failure to connect with two-way SSL. (James F. Gould)
+* Added com.verisign.epp.codec.rccsunriseeu.RCCSunriseEUExtFactory to epp.config and epp-http.config EPP.CmdRspExtensions property and replaced com.verisign.epp.serverstub.RccDomainHandler with com.verisign.epp.serverstub.RCCExtensionsDomainHandler in the EPP.ServerEventHandlers property. (James F. Gould)
+* Added handling an empty <epp:extValue> reason element in EPPExtValue.decode(). (James F. Gould)
+* Fixed a bug with the EPPUtil.encodeBigDecimal and EPPClsBidPrice.encode that resulted in localization issues, where the decimal point could be represented as a different character.  This is related to SR #661639. (James F. Gould)
+* Fixed a bug in com.verisign.epp.codec.gen.EPPValue.decode where it required the namespace definition as an attribute of the <value> sub-element.  The namespace can now be defined anywhere in the XML. (James F. Gould)
+* Changed log level of services mismatch from error to warn in com.verisign.epp.codec.gen.EPPLoginCmd based on SR 652869. (James F. Gould)
+
+Changes in version 3.3.0.3 (14.11.2005)
+-----------------------------------
+* Added whois to the NameStore bundle which included adding setWhoisInfo(boolean) to NSDomain, adding com.verisign.epp.codec.whois.EPPWhoisExtFactory to the default EPP.CmdRspExtensions property, adding test code in both NSDomainTst and NSDomainHandler. (James F. Gould)
+* Fixed an issue with EPPDomainInfoCmd when the hosts attribute is not set, which is the default, that caused the com.verisign.epp.codec.domain.EPPDomainTst test to fail. (James F. Gould) 
+* Fixed incorrect reference of EPPCLSBidInterfaceTst.suite() to EPPCLSItemInterfaceTst.suite() in EPPCLSItemInterfaceTst.java. (Colin Lloyd)
+* Added the ability to set the client host name or IP address when creating a TCP or SSL connection.  This ability was also added to the pools with the EPP.ClientHost or EPP.SessionPool.<pool>.clientHost properties.  Many files were modified to accommadate this feature. (James F. Gould)
+* Added the EDU constants to NSSubProduct. (James F. Gould)
+* Added the EU Sunrise extension to the rccextensions. (John Fraser)
+
+Changes in version 3.3.0.2 (28.10.2005)
+-----------------------------------
+* Changed the EPPDomainPendActionMsg isSuccess and setSuccess methods to isPASuccess and setPASuccess so that they don't incorrectly override the same methods in the EPPResponse base class.  Added additional codec and interfaces test code. (James F. Gould) 
+* Fixed adding the svcExtension elements in EPPLoginCmd.  The extservices attributes had to be set with EPPFactory.getInstance().getExtensions().  (James F. Gould)
+* Added insertion of the EPPRgpExtInfData extension in NSDomainHandler.doDomainInfo() when the domain name is pendingrestore.com for testing the use of the extension. (James F. Gould)
+* Added convenience constructor to EPPRgpextInfData that takes an EPPRgpExtStatus parameter.  (James F. Gould) 
+* Add inserting an EPPLowBalancePollResponse in NSDomainHandler.doDomainCreate when the domain name is "lowbalancepoll.com".  (James F. Gould)
+
+
+Changes in version 3.3.0.1 (22.09.2005)
+-----------------------------------
+* Added handling of the new EPPAssemblerException constant objects types COMMANDNOTFOUND, RESPONSENOTFOUND, and EXTENSIONNOTFOUND.  (James F. Gould)
+* Added handling of EPPComponentNotFoundException in EPPXMLAssembler by mapping the kind attribute to EPPAssemblerException constant object types. (James F. Gould)
+* Added COMMANDNOTFOUND, RESPONSENOTFOUND, and EXTENSIONNOTFOUND constant objects to EPPAssemblerException to identify when a specific compoonent can not be found in EPPAssembler.toEvent. (James F. Gould)  
+* Added EPPComponentNotFoundException to be thrown by EPPCodec.decode, EPPCommand.decode, and EPPResponse.decode when a mapping or extension component can not be found.  (James F. Gould)
+* Fixed text included in error log and EPPConException when EPPSSLClientSocket can not establish a connection.  (James F. Gould)
+* Added new Log4J category called com.verisign.epp.util.EPPXMLStream.packet for logging packets sent and received for routed to a seperate log file.  Added new appender in logconfig.xml to demonstrate creating a seperate log. This is based on SR 472609. (James F. Gould)
+* Updated com.verisign.epp.codec.rcccontact.EPPContactUpdateCmd to not default the legal contact to the value of the general contact.  This is based on SR #464229.  (James F. Gould)
+* Added negative test scenario change to NSDomainHandler to return PARAM_VALUE_POLICY_ERROR with a EPPNamestoreExtNSExtErrData extension when the subProductID is "BAD". (James F. Gould)
+
+Changes in version 3.2.0.2 (05.09.2005)
+-----------------------------------
+* Added support for multiple session pools keyed by system name.  Added EPPSystemSessionPool, EPPSystemSesionPoolTest, and updated the associated classes EPPSessionPool, EPPHttpSessionPoolableFactory, EPPPoolGenericSession, EPPSessionPoolablefactory, and EPPSessionPoolTst.  Also updated epp.config and epp-http.config files to reference the system session pools.  (James F. Gould)  
+* Added setProperty(String, String) to Environment to support overriding properties from within tests.  (James F. Gould)
+* Replaced draft-hollenbeck-epp-rgp-04.txt with epp-rgp-rfc3915.txt to reference the RFC instead of the draft for RGP.  (James F. Gould)
+* Added handing of com.verisign.epp.codec.domain.EPPDomainPendActionMsg to NSPollTst and NSPollHandler in support of JOBS.  Also added handling of EPPClsPollResponse in NSPollHandler.  (James F. Gould)  
+* Added JOBS and NAME constants to NSSubProduct, and added checking for null in the setSubProductID methods of NSDomain and NSHost. (James F. Gould)  
+* Removed unused EPPHTTPClientCon and EPPHTTPSClientCon since EPPHTTPSession utilizes Jakarta HTTP Client in place of these classes.  The references to these classes were removed from the configuration files and documentation.  (James F. Gould)
+* Made EPP.ClientSocketName optionally in EPPEnv since the HTTP and HTTPS transports don't use this property. (James F. Gould)
+* Changed isKnown deprecated method call in EPPRccHostTst to isAvailable method call.  (James F. Gould)
+* Changed EPPHttpSession service comparison check to log a warning when there is a mismatch in the same way as EPPSession. (James F. Gould)  
+* Added the ability to run with both TCP and HTTP in EPPIdnDomainTst and EPPClsBidInterfaceTst similar to the other interfaces tests. (James F. Gould)
+* Updated the default configuration settings for bundles/namestore/epp.config and bundles/namestore/epp-http.config to work better when testing in SSL mode. (James F. Gould)
+
+Changes in version 3.2.0.1 (11.08.2005)
+-----------------------------------
+
+* Added CLS product (Colin W. Lloyd)
+* Added encode/decode methods for BigDecimal to EPPUtil in the codec package in gen. (Colin W. Lloyd) 
+* Fix bug with setting the roid in EPPAuthInfo where the roid was placed in the authInfo element instead of the pw element.  Updated associated EPPDomainTst's. (James F. Gould)
+* Added EPPDomain.setAuthRoid(String) and EPPDomain.getAuthRoid for use with thick registries and the sendTransfer and sendInfo methods. (James F. Gould)
+* Added EPPSession(String, int) method and dependent methods to allow for a client connection to made to a different host and port than what is defined in epp.config.  This is useful if the client needs to connect to multiple servers.  (James F. Gould) 
+* In EPPSSLImpl, EPPHttpSession, and EPPHTTPSClientCon removed Sun JSSE 1.0.2 references and used default algorithm for both the KeyManagerFactory and the TrustManagerFactory, and deprecated use of EPPEnv.getSSLKeyManager.  This will allow the SDK to easily use different JSSE providers. (James F. Gould)
+
+Changes in version 3.1.0.3 (31.03.2005)
+-----------------------------------
+* Fixed misspelling of PP.SSLKeyManager and PP.SSLKeyStore to EPP.SSLKeyManager and EPP.SSLKeyStore, respectively in bundles/namestore/epp.config and bundles/namestore/epp-http.config  (James F. Gould)  
+* Added description of successful execution of test-client-server target to section 4.2 of the Programmer's Guide. (James F. Gould)
+
+Changes in version 3.1.0.2 (23.03.2005)
+-----------------------------------
+* Replaced draft-hollenbeck-epp-sync-00.txt with draft-hollenbeck-epp-sync-01.txt to fix incorrect <info> response sample. (James F. Gould)  
+* Updated small documentation error with <check> response in the EPP-NamestoreExt-Mapping.  (James F. Gould)
+* Updated small sample error in <delete> response of the EPP-RCCDomain-Mapping.  (James F. Gould)
+* Update EPPLowBalanceDomainTst.domainPoll() to only attempt to acknowledge the message if it receives a EPPResult.SUCCESS_POLL_MSG result from the sendPoll().  (James F. Gould)
+* Updated the Programmer's Guide to identify setPeriodLength as a required property of EPPRccDomain.sendCreate(). (James F. Gould)
+* Change EPPRccDomainTst to pass a domain id number instead of the string to be more consistent with the documentation.  (James F. Gould)
+* Added conversion of dates to UTC when encoding and decoding in EPPUtil to resolve an issue when passing the expiration date with a domain renew command. (James F. Gould)
+* Updated all of the codec tests to not use the DocumentBuilderFactory and to call the EPPCodecTst.initEnvironment method in suite. (James F. Gould)
+
+Changes in version 3.0.0.9 (17.02.2005), renamed to 3.1.0.1 to better reflect update.
+-----------------------------------
+* Added use of a 20k BufferedOutputStream in EPPSession and EPPServerThread to ensure that the EPP packets are sent in a single TCP packet (James F. Gould)
+* Added static setProperties(Properties) method to Environment for setting the Environment without a EPP SDK specific configuration file (James F. Gould)
+* Added catching of InterruptedIOException in EPPXMLStream.readPacket(InputStream) and logging a debug message instead of a generic IOException error message.
+* Updated EPPXMLStreamTst to handled the throwing of InterruptedIOException from EPPXMLStream.readPacket(InputStream). (James F. Gould) 
+
+Changes in version 3.0.0.8 (28.12.2004)
+-----------------------------------
+* Changed the loading of configuration properties as System properties to the use of a local Properties attribute of com.verisign.epp.util.Environment. (James F. Gould)
+* Changed all property calls in com.verisign.epp.util.EPPEnv to use methods of com.verisign.epp.util.Environment and not depend on System properties. (James F. Gould)
+* Removed use of javax.net.ssl.trustStore, javax.net.ssl.keyStore, and javax.net.ssl.keyStorePassword properties.  The new properties EPP.SSLTrustStoreFileName and EPP.SSLTrustStorePassPhrase should be used for trust store configuration.  The previously existing EPP.SSLKeyFileName and EPP.SSLPassPhrase should be used in place of javax.net.ssl.keyStore and javax.net.ssl.keyStorePassword. (James F. Gould)
+* Added optional property EPP.SSLKeyPassPhrase for using a different pass-phrase for the private key than the keystore, as defined by the EPP.SSLPassPhrase property. (James F. Gould)
+* Refactored com.verisign.epp.transport.client.EPPSSLImpl so that it includes an initialize method and that it's defined as a set of static properties and methods instead of an abstract class.  Added the static accessor methods getSSLContext() : SSLContext, isInitialized() : boolean, and getSSLSocketFactory() : SSLSocketFactory for initializing any SSL configuration including HTTPS.  (James F. Gould)
+* Refactored com.verisign.epp.transport.client.EPPHTTPSClientCon to use the new com.verisign.epp.transport.client.EPPSSLImpl interface and to not use an inner class. It was determined that this class is not actually used for HTTPS, since HTTPSession uses Jakarts HTTPClient.  (James F. Gould)
+* Updated com.verisign.epp.interfaces.EPPHttpSession to initialize SSL using com.verisign.epp.transport.client.EPPSSLImpl and use the EPPSSLImpl socket factory for the default SSL socket factory of HttpsURLConnection.  This removed the dependency to the setting of the javax.net.ssl System properties and had HTTPS use the same keystore and truststore as SSL.  (James F. Gould)
+* Removed use of deprecated method isKnown in com.verisign.epp.interfaces.EPPNamestoreExtHostTst and com.verisign.epp.interfaces.EPPRccHostTst (James F. Gould)  
+* Updated default properties in all configuration files (epp.config, epp-http.config) to use the new set of properties in the 3.0.0.8 release. (James F. Gould)  
+* Updated com.verisign.epp.transport.server.EPPSSLServer to use the updated com.verisign.epp.transport.client.EPPSSLImpl interface and to not extend EPPSSLImpl.  Also added accessors for the listening property for future use. (James F. Gould)
+* Updated com.verisign.epp.interfaces.EPPApplication, com.verisign.epp.serverstub.Server, and com.verisign.epp.serverstub.InitServlet to search for the log configuration in the order: the file system, the system ClassLoader, and then the current class ClassLoader. (James F. Gould)
+* Removed definition of the jvmarg javax.net.ssl.trustStore from all of the common-targets.xml files since the EPP.SSLTrustStoreFileName and EPP.SSLTrustStorePassPhrase should be used.  (James F. Gould)
+
+
+
+Changes in version 3.0.0.7 (7.12.2004)
+-----------------------------------
+
+* Added getHosts() : String and setHosts(String) to com.verisign.epp.interfaces.EPPDomain (James F. Gould)
+* Added HOSTS_ALL, HOST_DELEGATED, and HOSTS_SUBORDINATE constants to com.verisign.epp.interfaces.EPPDomain (James F. Gould)
+* Added use of authString attribute (setAuthString and getAuthString) in sendInfo() of com.verisign.epp.interfaces.EPPDomain (James F. Gould)
+* Updated com.verisign.epp.interfaces.EPPDomainTst to exercise setHosts and setAuthString with sendInfo() (James F. Gould)
+* Added EPPDomainInfoCmd(String, String, EPPAuthInfo) constructor to com.verisign.epp.codec.domain.EPPDomainInfoCmd (James F. Gould)
+* Added getAuthInfo() : EPPAuthInfo and setAuthInfo(EPPAuthInfo) to com.verisign.epp.codec.domain.EPPDomainInfoCmd (James F. Gould)
+* Updated com.verisign.epp.codec.domain.EPPDomainTst to exercise authInfo methods of com.verisign.epp.codec.domain.EPPDomainInfoCmd (James F. Gould)
+* Updated Namestore SDK Programmer's Guide with updated com.verisign.epp.interfaces.EPPDomain interface and sample code (James F. Gould)

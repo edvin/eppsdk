@@ -1,0 +1,77 @@
+This package contains the source library from http://www.verisigninc.com/assets/epp-namestore-3.13.0.2-src.tar.gz
+
+We try to do minimal changes to these modules, and instead add extensions in tornado-common by basing off these sources.
+We added maven-install.bat that will build the four modules we use at the moment and add them to the local maven-repo.
+
+Modules in use are: [contact, domain, host, gen]
+
+The files seem to be ISO-8859-1 encoded, so we convert to UTF8 like this:
+
+find . -name "*.java"|xargs recode ISO-8859-1..UTF8
+
+Document changes to this source base in this file, so that we can easily download a new version of epp-namestore, apply
+our changes, and build/deploy a new version with minimal fuss.
+
+The local additions we do in tornado-common are primarily to extend some commands to adhere to the changes/additions made
+by NORID. The updated schema can be found here: http://www.norid.no/registrar/system/dokumentasjon/epp-grensesnitt.html
+
+The epp client is set to not validate the schemas, so we only use them as templates for building our own extension objects.
+(EPP.Validating=false in /etc/tornado/epp.config)
+
+IMPORTANT UPDATE NOTICE:
+
+The lib folder contains third party libraries. Some of these are in use in tornado-web, so please make sure the versions
+are updated to match this distribution. At this time we use poolman and xercesImpl to support EPP.
+
+CHANGES TO VERISIGN CODE:
+
+EPPCodec.java: decode() is changed to support more than one resData element by changing the switch statement:
+
+		// Response?
+		else if (messageType.getTagName().equals(EPPResponse.ELM_NAME)) {
+			NodeList responseDataElm =
+				messageType.getElementsByTagName(EPPResponse.ELM_RESPONSE_DATA);
+
+			switch (responseDataElm.getLength()) {
+				// No Response Extension?
+				case 0:
+					retVal = new EPPResponse();
+
+					break;
+
+				// Response Extension?
+				default:
+
+					// Create Concrete Response
+					Element responseMap =
+						EPPUtil.getFirstElementChild((Element) responseDataElm
+													 .item(0));
+
+					if (responseMap == null) {
+						throw new EPPDecodeException("No child element found for "
+													 + EPPResponse.ELM_RESPONSE_DATA);
+					}
+
+					try {
+						retVal =
+							EPPFactory.getInstance().createResponse(responseMap);
+					}
+					 catch (EPPCodecException e) {
+						throw new EPPComponentNotFoundException(
+								EPPComponentNotFoundException.RESPONSE,
+								"Unable to create concrete response: "
+													 + e);
+					}
+
+					break;
+
+                /* -- This used to be the default, and default: used to be 1:
+				default:
+					throw new EPPDecodeException("Invalid number of "
+												 + EPPResponse.ELM_RESPONSE_DATA
+												 + " elements of "
+												 + responseDataElm.getLength());
+				*/
+			} // end switch (responseDataElm.getLength())
+		}
+
